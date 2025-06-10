@@ -1,0 +1,1 @@
+# Placeholder for embed_documents.py
