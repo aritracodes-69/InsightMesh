@@ -1,1 +1,20 @@
 # Placeholder for requirements.txt
+# Core libraries
+PyYAML==6.0
+streamlit==1.35.0
+
+# Google Cloud
+google-cloud-bigquery==3.22.0
+google-cloud-aiplatform==1.51.0
+google-cloud-storage==2.16.0
+
+# Vertex AI Embeddings (optional if using Vertex SDK directly)
+vertexai==1.43.0
+
+# Other helpful tools
+pandas==2.2.2
+numpy==1.26.4
+
+# For local dev/debugging
+ipython==8.24.0
+gunicorn==21.2.0  # for production server, optional

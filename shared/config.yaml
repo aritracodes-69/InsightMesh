@@ -1,1 +1,30 @@
 # Placeholder for config.yaml
+feedback_agent:
+  - module: agents.feedback_agent.steps.ingestion_step
+    class: IngestionStep
+  - module: agents.feedback_agent.steps.sentiment_step
+    class: SentimentStep
+
+classification_agent:
+  - module: agents.classification_agent.steps.classification_step
+    class: ClassificationStep
+
+prioritization_agent:
+  - module: agents.prioritization_agent.steps.priority_step
+    class: PriorityStep
+
+action_mapper_agent:
+  - module: agents.action_mapper_agent.steps.action_step
+    class: ActionStep
+
+execution_agent:
+  - module: agents.execution_agent.steps.execute_step
+    class: ExecuteStep
+
+feedback_logger_agent:
+  - module: agents.feedback_logger_agent.steps.logger_step
+    class: LoggerStep
+
+explainer_agent:
+  - module: agents.explainer_agent.steps.explainer_step
+    class: ExplainerStep

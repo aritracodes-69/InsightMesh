@@ -1,1 +1,15 @@
 # Placeholder for insightmesh_flow.yaml
+name: InsightMeshFlow
+type: sequential
+description: >
+  This flow processes user feedback through multiple intelligent agents to analyze, classify, prioritize,
+  and take appropriate actions while explaining and logging the outcome.
+
+agents:
+  - FeedbackAgent
+  - ClassificationAgent
+  - PrioritizationAgent
+  - ActionMapperAgent
+  - ExecutionAgent
+  - FeedbackLoggerAgent
+  - ExplainerAgent
