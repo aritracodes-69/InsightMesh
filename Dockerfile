@@ -1,29 +1,44 @@
-# Placeholder for Dockerfile
-# Use the official Python image
-FROM python:3.10-slim
+# Use official slim Python base image
+FROM python:3.11-slim
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE 1
-ENV PYTHONUNBUFFERED 1
+# Prevent .pyc files and enable unbuffered logging
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
 
-# Set work directory
+# Set workdir
 WORKDIR /app
 
-# Install system dependencies
+# Install system-level dependencies
 RUN apt-get update && apt-get install -y \
-    gcc \
-    libgomp1 \
+    build-essential \
+    curl \
+    git \
+    libglib2.0-0 \
+    libsm6 \
+    libxrender1 \
+    libxext6 \
     && rm -rf /var/lib/apt/lists/*
 
-# Install Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Upgrade pip and setuptools
+RUN pip install --upgrade pip setuptools wheel
 
-# Copy project code
+# Copy dependency file first to leverage Docker cache
+COPY requirements.txt .
+
+# Install requirements (skip source builds)
+RUN pip install --no-cache-dir --only-binary=PyYAML -r requirements.txt
+
+# Copy the entire project
 COPY . .
 
-# Expose the port Streamlit runs on
+# Expose port used by Streamlit
 EXPOSE 8501
 
-# Command to run Streamlit
-CMD ["streamlit", "run", "streamlit_ui/app.py", "--server.port=8501", "--server.enableCORS=false"]
+# Set environment variables for Streamlit (optional)
+ENV STREAMLIT_SERVER_HEADLESS=true
+ENV STREAMLIT_SERVER_PORT=8501
+ENV STREAMLIT_SERVER_ENABLECORS=false
+ENV STREAMLIT_SERVER_ENABLEXSFPROTECTION=false
+
+# Default command: run Streamlit UI
+CMD ["streamlit", "run", "streamlit_ui/app.py"]

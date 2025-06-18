@@ -3,7 +3,7 @@ from google.cloud import aiplatform_matching_engine
 import json
 import os
 
-PROJECT_ID = os.getenv("PROJECT_ID")
+PROJECT_ID = os.getenv("insightmesh")
 LOCATION = "us-central1"
 INDEX_ID = os.getenv("MATCHING_ENGINE_INDEX")
 

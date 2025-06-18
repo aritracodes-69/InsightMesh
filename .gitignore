@@ -1,0 +1,53 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*.so
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# Environment files
+.env
+.env.*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Logs and databases
+*.log
+*.sqlite3
+
+# Pytest cache
+.cache/
+
+# VSCode settings
+.vscode/
+
+# Streamlit config
+.streamlit/
+
+# Docker
+*.pid
+*.sock
+
+# Ignore output artifacts
+*.h5
+*.pkl
+*.db
+*.zip
+*.tar.gz
+
+# Ignore test artifacts
+htmlcov/
+coverage.xml
+pytest-debug.log
+
+# Ignore service account keys
+*.json
+!keep_config.json  # if you have a specific one to keep
