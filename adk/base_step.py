@@ -1,35 +1,33 @@
-import yaml
-import importlib
+# adk/base_step.py
+from abc import ABC, abstractmethod
+from typing import Any, Dict, Tuple
 
-class AgentBase:
+class BaseStep(ABC):
     """
-    Orchestrates a sequence of BaseStep instances, loaded from config.
+    Abstract base class for a step in an agent pipeline.
+    Each step processes input data and updates shared context.
     """
-    def __init__(self, config_yaml_path: str, agent_config_section: str):
-        # Load config and initialize steps list
-        with open(config_yaml_path) as f:
-            cfg = yaml.safe_load(f)
-        self.steps = []
-        # agent_config_section is key in config YAML listing steps
-        for step_cfg in cfg.get(agent_config_section, []):
-            module_path = step_cfg['module']
-            class_name = step_cfg['class']
-            params = step_cfg.get('params', {})
-            module = importlib.import_module(module_path)
-            StepClass = getattr(module, class_name)
-            instance = StepClass(**params)
-            self.steps.append(instance)
-    
-    def run(self, input_data, context: dict = None):
-        if context is None:
-            context = {}
-        data = input_data
-        for step in self.steps:
-            data, context = step.apply(data, context)
-        return data, context
-    
-    def explain(self):
-        explanations = []
-        for step in self.steps:
-            explanations.append(step.explain())
-        return "\n\n".join(explanations)
+
+    @abstractmethod
+    def apply(self, input_data: Any, context: Dict[str, Any]) -> Tuple[Any, Dict[str, Any]]:
+        """
+        Apply the logic of the step to the input data.
+
+        Args:
+            input_data (Any): The input data to be processed.
+            context (Dict[str, Any]): A shared dictionary to pass data across steps.
+
+        Returns:
+            Tuple[Any, Dict[str, Any]]: The processed output data and the updated context.
+        """
+        pass
+
+    @abstractmethod
+    def explain(self) -> str:
+        """
+        Generate a human-readable explanation of what this step performed.
+
+        Returns:
+            str: Explanation of the step’s processing.
+        """
+        pass

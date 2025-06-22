@@ -1,5 +1,5 @@
 # Placeholder for test_feedback.py
-from agents.feedback_agent import FeedbackAgent
+from agents.feedback_agent.builder import FeedbackAgent
 
 def test_feedback_agent():
     agent = FeedbackAgent()

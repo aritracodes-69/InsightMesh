@@ -1,4 +1,3 @@
-# Placeholder for config.yaml
 feedback_agent:
   - module: agents.feedback_agent.steps.ingestion_step
     class: IngestionStep
@@ -28,3 +27,8 @@ feedback_logger_agent:
 explainer_agent:
   - module: agents.explainer_agent.steps.explainer_step
     class: ExplainerStep
+
+summarizer_agent:
+  - module: agents.summarizer_agent.steps.summarizer_step
+    class: SummarizationStep
+

@@ -1,16 +1,14 @@
-# Placeholder for action_step.py
 from adk.base_step import BaseStep
+from tools.action_tool import generate_explanation
 
 class ActionStep(BaseStep):
     def apply(self, input_data, context):
-        mapping = {
-            "bug_report": "create_ticket",
-            "feature_request": "notify_team",
-            "general": "archive"
-        }
-        action = mapping.get(context.get('category'), "archive")
-        context['action'] = action
-        return action, context
+        category = context.get("category", "")
+        priority = context.get("priority", "")
+        explanation = generate_explanation(category, priority)
+        context["action_explanation"] = explanation
+        return input_data, context
 
-    def explain(self):
-        return "Mapped category to action."
+    def explain(self,context):
+        return context.get("action_explanation", "No explanation generated.")
+

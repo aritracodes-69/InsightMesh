@@ -1,44 +1,51 @@
-# Core Vertex AI SDK and embeddings
+# Core Google Vertex AI SDK
 google-cloud-aiplatform>=1.44.0
 vertexai>=0.1.0
 
-# BigQuery integration
+# Generative AI (Gemini)
+google-generativeai>=0.3.2
+
+# GCP authentication and API support
+google-auth==2.29.0
+google-api-core>=2.17.0
+protobuf!=4.21.0
+grpcio==1.62.1
+
+# BigQuery support
 google-cloud-bigquery>=3.14.0
 
-# Streamlit for UI
+# UI - Streamlit
 streamlit>=1.35.0
+
+# Environment variable support
+python-dotenv==1.0.1
 
 # Data manipulation
 pandas>=2.0
 numpy>=1.24
 scikit-learn>=1.3.0
 
-# Embedding + vector handling
-scipy
-faiss-cpu  # Optional: if doing local vector search
+# Plotting and visualization
+plotly==5.22.0
 
-# YAML support with binary wheel only
+# Text processing
+textblob
+
+# Embedding / Vector Search (optional local)
+scipy
+faiss-cpu
+
+# YAML support
 PyYAML>=6.0.1,<6.1
 
-
-# Environment variable support
-python-dotenv>=1.0.0
-
-# Logging, time formatting
+# Logging and progress
 loguru
 tqdm
 
-# Testing
+# Testing tools
 pytest
 pytest-mock
 
-# Linting / optional dev tools
+# Dev tools (optional)
 black
 flake8
-
-# If using transformers (optional)
-transformers>=4.40.0
-
-# GCP auth support
-google-auth
-google-api-core
