@@ -8,7 +8,7 @@ import vertexai
 vertexai.init(project=os.getenv("PROJECT_ID"), location=os.getenv("LOCATION", "us-central1"))
 
 def generate_embeddings(docs):
-    model = TextEmbeddingModel.from_pretrained("textembedding-gecko@003")
+    model = TextEmbeddingModel.from_pretrained("text-embedding-005")
     embeddings = []
     for doc in docs:
         result = model.get_embeddings([doc])[0]

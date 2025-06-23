@@ -5,22 +5,22 @@ from datetime import datetime
 from dotenv import load_dotenv
 load_dotenv()
 # Environment setup
-PROJECT_ID = os.getenv("GCP_PROJECT", "insightmesh")
-DATASET_ID = os.getenv("BQ_DATASET", "insightmesh_feedback")
-TABLE_ID = os.getenv("BQ_TABLE", "feedback_records")
+PROJECT_ID = os.getenv("PROJECT_ID")
+DATASET_ID = os.getenv("BQ_DATASET")
+TABLE_ID = os.getenv("BQ_TABLE")
 FULL_TABLE_ID = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_ID}"
 
 bq_client = bigquery.Client()
 
 # Table schema definition with partitioned timestamp
 TABLE_SCHEMA = [
-    bigquery.SchemaField("review_id", "STRING", mode="REQUIRED"),
-    bigquery.SchemaField("timestamp", "TIMESTAMP", mode="REQUIRED"),
-    bigquery.SchemaField("raw_feedback", "STRING", mode="REQUIRED"),
+    bigquery.SchemaField("feedback_id", "STRING", mode="REQUIRED"),
+    bigquery.SchemaField("timestamp", "TIMESTAMP", mode="NULLABLE"),
+    bigquery.SchemaField("feedback", "STRING", mode="REQUIRED"),
+    bigquery.SchemaField("summary", "STRING", mode="NULLABLE"),
     bigquery.SchemaField("category", "STRING", mode="NULLABLE"),
     bigquery.SchemaField("priority", "STRING", mode="NULLABLE"),
-    bigquery.SchemaField("summary", "STRING", mode="NULLABLE"),
-    bigquery.SchemaField("action_status", "STRING", mode="NULLABLE"),
+    bigquery.SchemaField("action_taken", "STRING", mode="NULLABLE"),
     bigquery.SchemaField("explanation", "STRING", mode="NULLABLE"),
 ]
 
@@ -43,7 +43,7 @@ def ensure_table_exists():
         print(f"✅ Created table: {FULL_TABLE_ID}")
 
 
-def insert_feedback_record(record: dict) -> bool:
+def get_feedback_record() -> list:
     """
     Insert a preprocessed feedback record into BigQuery.
     Args:
@@ -52,12 +52,10 @@ def insert_feedback_record(record: dict) -> bool:
         bool: True if successful, False otherwise.
     """
     try:
-        errors = bq_client.insert_rows_json(FULL_TABLE_ID, [record])
-        if errors:
-            print("❌ BigQuery insert errors:", errors)
-            return False
-        print("✅ Feedback record inserted into BigQuery.")
-        return True
+        query = f"SELECT * FROM `{FULL_TABLE_ID}` ORDER BY timestamp DESC"
+        result= bq_client.query(query).result()
+        return [dict(row) for row in result]
+        
     except Exception as e:
         print("❌ Error inserting into BigQuery:", e)
         return False

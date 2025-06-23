@@ -1,6 +1,6 @@
 import streamlit as st
 from streamlit_ui.utils import run_feedback_pipeline
-from tools.bigquery_utils import get_feedback_records
+from tools.bigquery_utils import get_feedback_record
 from tools.summarizer_tool import summarize_with_gemini
 from tools.classification_tool import classify_text
 from tools.priority_tool import assign_priority
@@ -39,14 +39,13 @@ with tabs[1]:
     st.header("📊 Feedback Insights Dashboard")
 
     try:
-        records = get_feedback_records()
-        df = pd.DataFrame(records)
-
-        if df.empty:
-            st.warning("No feedback records found in BigQuery.")
+        records = get_feedback_record()
+        if not records:
+            st.warning("Sorry,No feedback records found in BigQuery.")
         else:
-            df["timestamp"] = pd.to_datetime(df["timestamp"])
-
+            df = pd.DataFrame(records)
+            df["timestamp"]=pd.to_datetime(df["timestamp"])
+            
             st.subheader("🗃️ Recent Feedback Records")
             st.dataframe(df, use_container_width=True)
 

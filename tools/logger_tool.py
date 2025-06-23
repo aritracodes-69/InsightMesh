@@ -7,9 +7,10 @@ load_dotenv()
 
 # Fetch required environment variables
 PROJECT_ID = os.getenv("PROJECT_ID")
-DATASET_ID = os.getenv("BIGQUERY_DATASET", "insightmesh_dataset")
-TABLE_NAME = "feedback_logs"
-
+DATASET_ID = os.getenv("BQ_DATASET")
+TABLE_NAME = os.getenv("BQ_TABLE")
+FULL_TABLE_NAME = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_NAME}" 
+bq_client=bigquery.Client()
 # Validate environment variables early
 if not PROJECT_ID:
     raise EnvironmentError("Missing PROJECT_ID environment variable. Please set it in .env or environment config.")
@@ -19,15 +20,13 @@ def log_to_db(data: dict) -> bool:
     Logs feedback data to BigQuery. Returns True if successful, else False.
     """
     try:
-        client = bigquery.Client(project=PROJECT_ID)
-        table_ref = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_NAME}"
-        errors = client.insert_rows_json(table_ref, [data])
+       errors= bq_client.insert_rows_json(FULL_TABLE_NAME, [data])
 
-        if errors:
-            print("BigQuery insert errors:", errors)
-            return False
-        return True
-
+       if errors == []:
+           return True
+       else:
+           print(f"Errors while inserting rows: {errors}")
+           return False
     except Exception as e:
         print(f"Error while logging to BigQuery: {e}")
         return False

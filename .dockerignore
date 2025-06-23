@@ -1,0 +1,5 @@
+# Ignore all .json files
+*.json
+
+# Except the one key we want
+!key.json

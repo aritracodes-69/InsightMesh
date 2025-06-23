@@ -49,6 +49,6 @@ coverage.xml
 pytest-debug.log
 
 # Ignore service account keys
-*/insightmesh/insightmesh-key.json
+*/key.json
 !keep_config.json  # if you have a specific one to keep
 
