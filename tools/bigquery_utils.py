@@ -21,7 +21,7 @@ TABLE_SCHEMA = [
     bigquery.SchemaField("category", "STRING", mode="NULLABLE"),
     bigquery.SchemaField("priority", "STRING", mode="NULLABLE"),
     bigquery.SchemaField("action_taken", "STRING", mode="NULLABLE"),
-    bigquery.SchemaField("explanation", "STRING", mode="NULLABLE"),
+    bigquery.SchemaField("explaination", "STRING", mode="NULLABLE"),
 ]
 
 
@@ -52,7 +52,7 @@ def get_feedback_record() -> list:
         bool: True if successful, False otherwise.
     """
     try:
-        query = f"SELECT * FROM `{FULL_TABLE_ID}` ORDER BY timestamp DESC"
+        query = f"SELECT * FROM `{FULL_TABLE_ID}` WHERE timestamp >= TIMESTAMP_SUB(CURRENT_TIMESTAMP(), INTERVAL 30 DAY) LIMIT 100"
         result= bq_client.query(query).result()
         return [dict(row) for row in result]
         

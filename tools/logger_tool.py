@@ -1,4 +1,5 @@
 import os
+import uuid  # <-- Add this import
 from google.cloud import bigquery
 from dotenv import load_dotenv
 
@@ -10,7 +11,7 @@ PROJECT_ID = os.getenv("PROJECT_ID")
 DATASET_ID = os.getenv("BQ_DATASET")
 TABLE_NAME = os.getenv("BQ_TABLE")
 FULL_TABLE_NAME = f"{PROJECT_ID}.{DATASET_ID}.{TABLE_NAME}" 
-bq_client=bigquery.Client()
+bq_client = bigquery.Client()
 # Validate environment variables early
 if not PROJECT_ID:
     raise EnvironmentError("Missing PROJECT_ID environment variable. Please set it in .env or environment config.")
@@ -20,14 +21,18 @@ def log_to_db(data: dict) -> bool:
     Logs feedback data to BigQuery. Returns True if successful, else False.
     """
     try:
-       errors= bq_client.insert_rows_json(FULL_TABLE_NAME, [data])
+        # Ensure feedback_id is present
+        if "feedback_id" not in data or not data["feedback_id"]:
+            data["feedback_id"] = str(uuid.uuid4())
+        print("Inserting into table:", FULL_TABLE_NAME)
+        print("Log data being inserted:", data)
+        errors = bq_client.insert_rows_json(FULL_TABLE_NAME, [data])
 
-       if errors == []:
-           return True
-       else:
-           print(f"Errors while inserting rows: {errors}")
-           return False
+        if errors == []:
+            return True
+        else:
+            print(f"Errors while inserting rows: {errors}")
+            return False
     except Exception as e:
         print(f"Error while logging to BigQuery: {e}")
         return False
-

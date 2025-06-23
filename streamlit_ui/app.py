@@ -5,8 +5,9 @@ from tools.summarizer_tool import summarize_with_gemini
 from tools.classification_tool import classify_text
 from tools.priority_tool import assign_priority
 from tools.logger_tool import log_to_db
-from datetime import datetime
+from datetime import datetime, timezone
 import pandas as pd
+import uuid 
 
 st.set_page_config(page_title="InsightMesh", layout="wide")
 st.title("🧠 InsightMesh - Feedback Intelligence Dashboard")
@@ -87,13 +88,18 @@ with tabs[3]:
             category = classify_text(new_feedback)
             priority = assign_priority(category)
             log_data = {
+                "feedback_id": str(uuid.uuid4()),
                 "feedback": new_feedback,
                 "category": category,
                 "priority": priority,
-                "timestamp": datetime.utcnow().isoformat()
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "summary": None,
+                "action_taken": None,
+                "explaination": None
             }
 
             try:
+                print("Log data being inserted:", log_data)
                 if log_to_db(log_data):
                     st.success("✅ Feedback logged to BigQuery successfully.")
                 else:
