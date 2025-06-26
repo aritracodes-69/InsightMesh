@@ -1,5 +1,5 @@
 # Placeholder for retrieval_config.yaml
-embedding_model: "textembedding-gecko@003"
+embedding_model: "text-embedding-005"
 embedding_dimension: 768
-matching_engine_index: "projects/YOUR_PROJECT/locations/us-central1/indexes/YOUR_INDEX"
-corpus_bucket: "gs://your-bucket-name/corpus"
+matching_engine_index: "projects/InsightMesh/locations/us-central1/indexes/3753435829087764480"
+corpus_bucket: "gs://insightmesh_data/corpus"
