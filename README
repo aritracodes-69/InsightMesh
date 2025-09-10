@@ -2,127 +2,112 @@
 
 InsightMesh is an AI-powered, multi-agent feedback intelligence system that automates the processing, categorization, prioritization, explanation, and visualization of user feedback at scale. Built with Google Cloud Vertex AI, Gemini models, and RAG (Retrieval-Augmented Generation), it empowers organizations to understand user sentiment, extract actionable insights, and close the feedback loop—all in real time.
 
+---
+
 ## 🚀 Features
 
-* **💬 Feedback Analyzer**: Analyze raw feedback using an intelligent multi-agent pipeline.
-* **📊 Insights Dashboard**: View categorized and prioritized feedback along with sentiment and timeline.
-* **📝 Add Feedback**: Inject new feedback into BigQuery for testing and real-world data simulation.
-* **✨ Summarizer (Gemini)**: Summarize large batches of feedback into digestible insights.
-* **🧠 RAG Engine**: Retrieve relevant contextual data for better explanations and traceability.
-* **📦 BigQuery Integration**: All feedback records are stored and queried from Google BigQuery.
+- **💬 Feedback Analyzer**: Analyze raw feedback using an intelligent multi-agent pipeline.  
+- **📊 Insights Dashboard**: View categorized and prioritized feedback along with sentiment and timeline.  
+- **📝 Add Feedback**: Inject new feedback into BigQuery for testing and real-world data simulation.  
+- **✨ Summarizer (Gemini)**: Summarize large batches of feedback into digestible insights.  
+- **🧠 RAG Engine**: Retrieve relevant contextual data for better explanations and traceability.  
+- **📦 BigQuery Integration**: All feedback records are stored and queried from Google BigQuery.  
 
 ---
 
 ## 🛠️ Tech Stack
 
-* **Frontend**: Streamlit
-* **Backend**: Python, FastAPI (optional extension)
-* **Agents**: Custom-built multi-agent framework (based on ADK pattern)
-* **Embedding**: `text-embedding-005` (Vertex AI)
-* **LLMs**: Gemini 1.5 Pro
-* **Cloud**: Google Cloud Platform (GCP)
-
-  * Vertex AI
-  * Matching Engine
-  * BigQuery
-  * Cloud Run (for deployment)
+- **Frontend**: Streamlit  
+- **Backend**: Python, FastAPI (optional extension)  
+- **Agents**: Custom-built multi-agent framework (based on ADK pattern)  
+- **Embedding**: `text-embedding-005` (Vertex AI)  
+- **LLMs**: Gemini 1.5 Pro  
+- **Cloud**: Google Cloud Platform (GCP)  
+  - Vertex AI  
+  - Matching Engine  
+  - BigQuery  
+  - Cloud Run (for deployment)  
 
 ---
 
 ## ⚙️ Setup & Installation
 
 1. **Clone the Repository**
-
    ```bash
    git clone https://github.com/your-org/insightmesh.git
    cd insightmesh
-   ```
+Install Requirements
 
-2. **Install Requirements**
+bash
+Copy code
+pip install -r requirements.txt
+Setup Environment Variables
+Create a .env file with:
 
-   ```bash
-   pip install -r requirements.txt
-   ```
+env
+Copy code
+PROJECT_ID=your-gcp-project
+LOCATION=us-central1
+BQ_DATASET=your_dataset
+BQ_TABLE=your_table
+MATCHING_ENGINE_INDEX=your_index_id
+Run Locally
 
-3. **Setup Environment Variables**
-   Create a `.env` file with:
+bash
+Copy code
+streamlit run streamlit_ui/app.py
+🧪 Testing Instructions
+Navigate to the Feedback Analyzer tab, input feedback text, and click Analyze.
 
-   ```
-   PROJECT_ID=your-gcp-project
-   LOCATION=us-central1
-   BQ_DATASET=your_dataset
-   BQ_TABLE=your_table
-   MATCHING_ENGINE_INDEX=your_index_id
-   ```
+Go to Add Feedback to manually inject new feedback into BigQuery.
 
-4. **Run Locally**
+Check the Insights tab to verify data visualization.
 
-   ```bash
-   streamlit run streamlit_ui/app.py
-   ```
+Use Summarizer to test summarization with multiple feedbacks.
 
----
+If RAG is set up, confirm that relevant context appears alongside the analysis.
 
-## 🧪 Testing Instructions
-
-* Navigate to the **Feedback Analyzer** tab, input feedback text, and click **Analyze**.
-* Go to **Add Feedback** to manually inject new feedback into BigQuery.
-* Check the **Insights** tab to verify data visualization.
-* Use **Summarizer** to test summarization with multiple feedbacks.
-* If RAG is set up, confirm that relevant context appears alongside the analysis.
-
----
-
-## 📦 Deployment (Cloud Run)
-
-```bash
+📦 Deployment (Cloud Run)
+bash
+Copy code
 gcloud builds submit --tag gcr.io/<PROJECT_ID>/insightmesh-app
 gcloud run deploy insightmesh-app \
   --image gcr.io/<PROJECT_ID>/insightmesh-app \
   --platform managed \
   --region us-central1 \
   --allow-unauthenticated
-```
-
----
-
-## 🤖 Agent Pipeline Structure
-
-```text
+🤖 Agent Pipeline Structure
+text
+Copy code
 Feedback -> SentimentAgent -> CategoryAgent -> PriorityAgent -> RAGAgent -> ExplainerAgent -> LoggerAgent -> Dashboard
-```
+🎯 Use Cases
+Customer Support Analysis
 
----
+Product Feedback Monitoring
 
-## 🎯 Use Cases
+Feature Request Categorization
 
-* Customer Support Analysis
-* Product Feedback Monitoring
-* Feature Request Categorization
-* UX/UI Sentiment Analysis
-* Internal Feedback Loop Automation
+UX/UI Sentiment Analysis
 
----
+Internal Feedback Loop Automation
 
-## 🧠 What We Learned
+🧠 What We Learned
+How to integrate Vertex AI’s suite of models into real-world applications
 
-* How to integrate Vertex AI’s suite of models into real-world applications
-* How to structure a modular agent-based pipeline
-* How to deploy scalable Streamlit apps on Google Cloud
+How to structure a modular agent-based pipeline
 
----
+How to deploy scalable Streamlit apps on Google Cloud
 
-## 🛣️ Future Enhancements
+🛣️ Future Enhancements
+Add auth layer and user roles
 
-* Add auth layer and user roles
-* Integrate vector search using pgvector or FAISS
-* Add Slack/email notification triggers
-* Add training pipeline for custom models
+Integrate vector search using pgvector or FAISS
 
----
+Add Slack/email notification triggers
 
-## 📄 License
+Add training pipeline for custom models
 
+📄 License
 MIT License © 2025
 
 
